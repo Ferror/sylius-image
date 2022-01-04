@@ -1,13 +1,13 @@
+ARG UBUNTU_VERSION=20.04
+
 FROM ubuntu:${UBUNTU_VERSION}
 
 ARG PHP_VERSION=8.0
 ARG NODE_VERSION=16
-ARG UBUNTU_VERSION=22.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ondrej/php
-
 RUN apt-get update && apt-get install -y \
     curl \
     make \
@@ -35,7 +35,7 @@ RUN apt-get update && apt-get install -y \
     php${PHP_VERSION}-sqlite
 
 
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
 RUN apt-get install -y nodejs
 RUN corepack enable
 
