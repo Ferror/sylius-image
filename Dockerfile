@@ -36,7 +36,9 @@ RUN apt-get update && apt-get install -y \
 
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get install -y \
+    nodejs \
+    python2
 RUN corepack enable
 
 RUN apt-get clean && apt-get autoclean
