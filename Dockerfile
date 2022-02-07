@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y \
     make \
     nginx \
     unzip \
-    supervisor\
+    supervisor \
+    build-essential \
     php${PHP_VERSION}-common \
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-cli \
