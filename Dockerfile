@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     supervisor \
     build-essential \
+    python2 \
     php${PHP_VERSION}-common \
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-cli \
@@ -35,11 +36,14 @@ RUN apt-get update && apt-get install -y \
     php${PHP_VERSION}-yaml \
     php${PHP_VERSION}-sqlite
 
+RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+RUN source ~/.nvm/nvm.sh
+RUN nvm install 10
 
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
-RUN apt-get install -y \
-    nodejs \
-    python2
+#RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
+#RUN apt-get install -y \
+#    nodejs \
+#    python2
 RUN corepack enable
 
 RUN apt-get clean && apt-get autoclean
@@ -53,6 +57,7 @@ RUN mkdir -p /run/php
 COPY nginx.conf         /etc/nginx/nginx.conf
 COPY supervisor.conf    /etc/supervisor/conf.d/supervisor.conf
 COPY www.conf           /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+COPY php.ini            /etc/php/${PHP_VERSION}/php.ini
 
 WORKDIR /app
 
