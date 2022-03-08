@@ -1,64 +1,67 @@
-ARG UBUNTU_VERSION=20.04
-
-FROM ubuntu:${UBUNTU_VERSION}
-
-ARG PHP_VERSION=8.0
-ARG NODE_VERSION=16
+FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
+ENV LC_ALL=C.UTF-8
 
-RUN apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository ppa:ondrej/php
-RUN apt-get update && apt-get install -y \
-    curl \
+# Install basic tools
+RUN apt update && apt install -y \
+    software-properties-common \
+    apt-utils \
+    curl
+
+# Append NODE and PHP repositories
+RUN add-apt-repository ppa:ondrej/php \
+    && add-apt-repository ppa:ondrej/nginx \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash -
+
+# Install required PHP extensions
+RUN apt update && apt install -y \
     make \
-    nginx \
-    unzip \
     supervisor \
-    build-essential \
-    python2 \
-    php${PHP_VERSION}-common \
-    php${PHP_VERSION}-fpm \
-    php${PHP_VERSION}-cli \
-    php${PHP_VERSION}-bz2 \
-    php${PHP_VERSION}-curl \
-    php${PHP_VERSION}-intl \
-    php${PHP_VERSION}-gd \
-    php${PHP_VERSION}-mbstring \
-    php${PHP_VERSION}-mysql \
-    php${PHP_VERSION}-pgsql \
-    php${PHP_VERSION}-opcache \
-    php${PHP_VERSION}-soap \
-    php${PHP_VERSION}-xml \
-    php${PHP_VERSION}-zip \
-    php${PHP_VERSION}-apcu \
-    php${PHP_VERSION}-redis \
-    php${PHP_VERSION}-xdebug \
-    php${PHP_VERSION}-yaml \
-    php${PHP_VERSION}-sqlite
+    git \
+    unzip \
+    nodejs \
+    nginx \
+    php8.0 \
+    php8.0-common \
+    php8.0-cli \
+    php8.0-xml \
+    php8.0-curl \
+    php8.0-gd \
+    php8.0-intl \
+    php8.0-opcache \
+    php8.0-pdo \
+    php8.0-ctype \
+    php8.0-calendar \
+    php8.0-dom \
+    php8.0-exif \
+    php8.0-xsl \
+    php8.0-zip \
+    php8.0-fpm \
+    php8.0-mysql \
+    php8.0-mbstring \
+    php8.0-xdebug
 
-RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-RUN source ~/.nvm/nvm.sh
-RUN nvm install 10
+# Link php-fpm binary file without version
+RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm
 
-#RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
-#RUN apt-get install -y \
-#    nodejs \
-#    python2
-RUN corepack enable
-
-RUN apt-get clean && apt-get autoclean
-
-RUN ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm
-
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer
 
+# Create directory for php-fpm socket
 RUN mkdir -p /run/php
 
-COPY nginx.conf         /etc/nginx/nginx.conf
-COPY supervisor.conf    /etc/supervisor/conf.d/supervisor.conf
-COPY www.conf           /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
-COPY php.ini            /etc/php/${PHP_VERSION}/php.ini
+# Install yarn
+RUN npm install -g yarn
+
+# Initialize config files
+COPY .docker/supervisord.conf   /etc/supervisor/conf.d/supervisor.conf
+COPY .docker/nginx.conf         /etc/nginx/nginx.conf
+COPY .docker/fpm.conf           /etc/php/8.0/fpm/pool.d/www.conf
+COPY .docker/php.ini            /etc/php/8.0/fpm/php.ini
+COPY .docker/php.ini            /etc/php/8.0/cli/php.ini
 
 WORKDIR /app
 
 EXPOSE 80
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
