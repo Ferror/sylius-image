@@ -1,0 +1,25 @@
+name: Build Docker Image
+
+on:
+    push:
+        branches-ignore:
+            - master
+            - '1.*'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build the image
+                run: |
+                    docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 .
