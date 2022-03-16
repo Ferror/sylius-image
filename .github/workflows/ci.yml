@@ -21,10 +21,11 @@ jobs:
                     buildx-version: latest
             -
                 name: build the image
-                run: docker buildx build \
-                    --tag sylius-image \
-                    --output type=image \
-                    --platform linux/amd64,linux/arm/v7,linux/arm64 .
+                run: |
+                    docker buildx build \
+                        --tag sylius-image \
+                        --output type=image \
+                        --platform linux/amd64,linux/arm/v7,linux/arm64 .
             -
                 name: check image size
                 run: docker images sylius-image
