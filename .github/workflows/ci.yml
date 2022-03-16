@@ -24,7 +24,7 @@ jobs:
                 run: |                    
                     docker buildx build \
                         --tag sylius-image \
-                        --output type=image,push=false \
+                        --output type=image,push=false,name=sylius-image \
                         --platform linux/amd64 .
                     
                     docker images
