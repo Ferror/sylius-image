@@ -37,7 +37,7 @@ entrypoints:
 providers:
     docker:
         exposedByDefault: true
-        # http://masterminds.github.io/sprig/strings.html
+        # https://masterminds.github.io/sprig/strings.html
         # Please define your own routing rules based on local domain
         defaultRule: "Host(`{{ .Name }}.domain.localhost`)"
 ```
@@ -73,8 +73,9 @@ services:
         platform: linux/amd64
         environment:
             - MYSQL_ALLOW_EMPTY_PASSWORD=true
-        volumes:
-            - ./.docker/dev/mysql:/docker-entrypoint-initdb.d:delegated
+# You may want to initialize mysql server with some dump files
+#        volumes:
+#            - ./.docker/dev/mysql:/docker-entrypoint-initdb.d:delegated
         ports:
             - "3306:3306"
         depends_on:
