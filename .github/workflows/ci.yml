@@ -24,7 +24,7 @@ jobs:
                 run: |                    
                     docker buildx build \
                         --tag sylius-image \
-                        --output type=tar,dest="-" \
+                        --output type=oci,dest="-" \
                         --platform linux/amd64 .
                     
                     docker images
