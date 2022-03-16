@@ -23,8 +23,8 @@ jobs:
                 name: build the image
                 run: |                    
                     docker buildx build \
-                        --tag sylius-image-dupa2 \
-                        --output type=image \
+                        --tag sylius-image \
+                        --output type=registry \
                         --platform linux/amd64 .
                     
                     docker images
