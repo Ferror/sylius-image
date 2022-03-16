@@ -21,9 +21,7 @@ jobs:
                     buildx-version: latest
             -
                 name: build the image
-                run: |
-                    docker images
-                    
+                run: |                    
                     docker buildx build \
                         --tag sylius-image-dupa2 \
                         --output type=image \
