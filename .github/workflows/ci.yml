@@ -7,8 +7,9 @@ on:
             - '1.*'
 
 jobs:
-    build:
+    ci:
         runs-on: ubuntu-latest
+        name: CI - build image
         steps:
             -
                 name: checkout code
