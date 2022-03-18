@@ -3,7 +3,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 
 # Install basic tools
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get install -y \
     software-properties-common \
     apt-utils \
     curl
@@ -14,7 +14,7 @@ RUN add-apt-repository ppa:ondrej/php \
     && curl -sL https://deb.nodesource.com/setup_14.x | bash -
 
 # Install required PHP extensions
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get install -y \
     make \
     supervisor \
     git \
@@ -39,7 +39,10 @@ RUN apt update && apt install -y \
     php8.0-fpm \
     php8.0-mysql \
     php8.0-mbstring \
-    php8.0-xdebug
+    php8.0-xdebug \
+    php8.0-sqlite \
+    php8.0-pgsql \
+    php8.0-yaml
 
 # Link php-fpm binary file without version
 RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm
@@ -48,7 +51,7 @@ RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer
 
 # Cleanup
-RUN apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Create directory for php-fpm socket
 RUN mkdir -p /run/php
