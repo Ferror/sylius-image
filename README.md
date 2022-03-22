@@ -87,6 +87,9 @@ services:
         image: postgres:13
         environment:
             - POSTGRES_PASSWORD=1234
+# You may want to initialize postgres server with some dump files
+#        volumes:
+#            - ./.docker/dev/postgres:/docker-entrypoint-initdb.d:delegated
         ports:
             - "5432:5432"
         depends_on:
