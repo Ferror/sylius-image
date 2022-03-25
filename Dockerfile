@@ -6,19 +6,19 @@ ENV LC_ALL=C.UTF-8
 RUN apt-get update && apt-get install -y \
     software-properties-common \
     apt-utils \
-    curl
+    curl \
+    make \
+    supervisor \
+    git \
+    unzip
 
-# Append NODE and PHP repositories
+# Append NODE, NGINX and PHP repositories
 RUN add-apt-repository ppa:ondrej/php \
     && add-apt-repository ppa:ondrej/nginx \
     && curl -sL https://deb.nodesource.com/setup_14.x | bash -
 
 # Install required PHP extensions
 RUN apt-get update && apt-get install -y \
-    make \
-    supervisor \
-    git \
-    unzip \
     nodejs \
     nginx \
     php8.0 \
