@@ -4,11 +4,10 @@
 
 | Image | Size                                                                     |
 |-------|--------------------------------------------------------------------------|
-| DEV   | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/latest) |
 | 1.11  | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11)   |
 
 ## Example usage
-### Production
+### Production environment
 #### Dockerfile
 
 ```dockerfile
@@ -18,7 +17,12 @@ COPY . /app
 
 RUN composer install --no-scripts
 RUN bin/console cache:warmup
+RUN yarn install --pure-lockfile
+RUN node_modules/gulp/bin/gulp.js
 ```
+
+#### Kubernetes
+[https://github.com/ferror/sylius-kubernetes](https://github.com/ferror/sylius-kubernetes)
 
 ### Development environment
 #### Traefik config file
@@ -65,14 +69,15 @@ services:
         depends_on:
             - traefik
             - mysql
+            - postgres
         networks:
             - sylius
 
     mysql:
         image: mysql:5.7
-        platform: linux/amd64
+        platform: linux/amd64 # mysql does not support arm images :(
         environment:
-            - MYSQL_ALLOW_EMPTY_PASSWORD=true
+            - MYSQL_ROOT_PASSWORD=mysql
 # You may want to initialize mysql server with some dump files
 #        volumes:
 #            - ./.docker/dev/mysql:/docker-entrypoint-initdb.d:delegated
@@ -86,7 +91,8 @@ services:
     postgres:
         image: postgres:13
         environment:
-            - POSTGRES_PASSWORD=1234
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=postgres
 # You may want to initialize postgres server with some dump files
 #        volumes:
 #            - ./.docker/dev/postgres:/docker-entrypoint-initdb.d:delegated
