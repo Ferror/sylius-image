@@ -30,6 +30,7 @@ jobs:
                 name: build and push the image
                 run: |
                     docker buildx build \
+                        --no-cache \
                         --push \
                         --tag ${{ secrets.DOCKER_HUB_USERNAME }}/sylius-image:1.11 \
                         --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 .
