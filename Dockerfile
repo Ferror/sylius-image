@@ -4,24 +4,22 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF8
 
 # Install basic tools
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade && apt-get install -y \
     software-properties-common \
     apt-utils \
-    curl
-
-# Append NODE and PHP repositories
-RUN add-apt-repository ppa:ondrej/php \
-    && add-apt-repository ppa:ondrej/nginx \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash -
-
-# Install required PHP extensions
-RUN apt-get update && apt-get install -y \
+    curl \
     make \
     supervisor \
     git \
     unzip \
+    nginx
+
+# Append NODE and PHP repositories
+RUN add-apt-repository ppa:ondrej/php && curl -sL https://deb.nodesource.com/setup_14.x | bash -
+
+# Install required PHP extensions
+RUN apt-get update && apt-get install -y \
     nodejs \
-    nginx \
     php8.0 \
     php8.0-common \
     php8.0-cli \
@@ -52,7 +50,7 @@ RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer
 
 # Cleanup
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Create directory for php-fpm socket
 RUN mkdir -p /run/php
