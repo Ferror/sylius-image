@@ -4,7 +4,7 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF8
 
 # Install basic tools
-RUN apt-get update && apt-get upgrade && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     software-properties-common \
     apt-utils \
     curl \
