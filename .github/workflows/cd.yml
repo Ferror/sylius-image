@@ -30,7 +30,6 @@ jobs:
                 name: build and push the image
                 run: |
                     docker buildx build \
-                        --no-cache \
                         --push \
                         --no-cache \
                         --tag ${{ secrets.DOCKER_HUB_USERNAME }}/sylius-image:1.11 \
