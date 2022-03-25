@@ -11,11 +11,12 @@ RUN apt-get update && apt-get upgrade && apt-get install -y \
     make \
     supervisor \
     git \
-    unzip \
-    nginx
+    unzip
 
-# Append NODE and PHP repositories
-RUN add-apt-repository ppa:ondrej/php && curl -sL https://deb.nodesource.com/setup_14.x | bash -
+# Append NODE, NGINX and PHP repositories
+RUN add-apt-repository ppa:ondrej/php \
+    && add-apt-repository ppa:ondrej/nginx \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash -
 
 # Install required PHP extensions
 RUN apt-get update && apt-get install -y \
