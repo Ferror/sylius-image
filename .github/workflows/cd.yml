@@ -6,6 +6,10 @@ on:
             - master
             - '1.*'
 
+env:
+    IMAGE_NAME: sylius-image
+    IMAGE_VERSION: 1.11
+
 jobs:
     cd:
         runs-on: ubuntu-latest
@@ -32,5 +36,5 @@ jobs:
                     docker buildx build \
                         --push \
                         --no-cache \
-                        --tag ${{ secrets.DOCKER_HUB_USERNAME }}/sylius-image:1.11 \
+                        --tag ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} \
                         --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 .
