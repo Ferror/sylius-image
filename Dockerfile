@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
+ENV PHP_VERSION=8.0
 
 # Install basic tools
 RUN apt-get update && apt-get install -y \
@@ -9,7 +10,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     make \
     supervisor \
-    git \
     unzip
 
 # Append NODE, NGINX and PHP repositories
@@ -21,7 +21,7 @@ RUN add-apt-repository ppa:ondrej/php \
 RUN apt-get update && apt-get install -y \
     nodejs \
     nginx \
-    php8.0 \
+    php${PHP_VERSION} \
     php8.0-common \
     php8.0-cli \
     php8.0-xml \
