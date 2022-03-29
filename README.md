@@ -2,9 +2,10 @@
 
 ## Docker sizes
 
-| Image | Size                                                                     |
-|-------|--------------------------------------------------------------------------|
-| 1.11  | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11)   |
+| Image         | Size                                                                            |
+|---------------|---------------------------------------------------------------------------------|
+| 1.11          | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11)          |
+| 1.11-headless | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11-headless) |
 
 ## Example usage
 ### Production environment
