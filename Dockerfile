@@ -41,7 +41,6 @@ RUN apt-get update && apt-get install -y \
     php8.0-mbstring \
     php8.0-xdebug \
     php8.0-sqlite \
-    php8.0-pgsql \
     php8.0-yaml
 
 # Link php-fpm binary file without version
