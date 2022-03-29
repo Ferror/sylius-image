@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     make \
     supervisor \
-    git \
     unzip
 
 # Append NODE, NGINX and PHP repositories
