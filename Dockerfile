@@ -68,6 +68,4 @@ COPY .docker/php.ini            /etc/php/8.0/cli/php.ini
 
 WORKDIR /app
 
-EXPOSE 80
-
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
