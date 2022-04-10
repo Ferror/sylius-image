@@ -39,5 +39,5 @@ jobs:
                     docker buildx build \
                         --push \
                         --no-cache \
-                        --tag ${{ secrets.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} \
+                        --tag ${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} \
                         --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 .
