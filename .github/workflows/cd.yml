@@ -13,9 +13,27 @@ env:
     IMAGE_VERSION: 1.11
 
 jobs:
+    update-readme:
+        runs-on: ubuntu-latest
+        name: Update Image Readme
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: push README to Dockerhub
+                uses: christian-korneck/update-container-description-action@v1
+                env:
+                    DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+                    DOCKER_PASS: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+                with:
+                    destination_container_repo: ${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}
+                    provider: dockerhub
+                    readme_file: 'README.md'
+
     cd-traditional:
         runs-on: ubuntu-latest
-        name: CD - build and deploy image
+        name: CD - build and deploy traditional image
         env:
             IMAGE_VERSION: 1.11
         steps:
@@ -46,7 +64,7 @@ jobs:
 
     cd-headless:
         runs-on: ubuntu-latest
-        name: CD - build and deploy image
+        name: CD - build and deploy headless image
         env:
             IMAGE_VERSION: 1.11-headless
         steps:
