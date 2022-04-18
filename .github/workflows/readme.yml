@@ -1,0 +1,29 @@
+name: Docker Hub Description
+
+on:
+    push:
+        branches:
+            - master
+
+env:
+    IMAGE_NAME: sylius-image
+    IMAGE_OWNER: ferror
+
+jobs:
+    update-readme:
+        runs-on: ubuntu-latest
+        name: Update Image Readme
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: push README to Dockerhub
+                uses: christian-korneck/update-container-description-action@v1
+                env:
+                    DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+                    DOCKER_PASS: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+                with:
+                    destination_container_repo: ${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}
+                    provider: dockerhub
+                    readme_file: 'README.md'
