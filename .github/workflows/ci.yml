@@ -13,21 +13,19 @@ jobs:
         name: CI - build image
         steps:
             -
-                name: checkout code
-                uses: actions/checkout@v2
+                name: Set Up QEMU
+                uses: docker/setup-qemu-action@v1
             -
-                name: install buildx
-                id: buildx
-                uses: crazy-max/ghaction-docker-buildx@v1
+                name: Set Up Docker Buildx
+                uses: docker/setup-buildx-action@v1
+            -
+                name: Build Image
+                uses: docker/build-push-action@v2
                 with:
-                    buildx-version: latest
-            -
-                name: build the image
-                run: |
-                    docker buildx build \
-                        --no-cache \
-                        --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 \
-                        traditional/.
+                    push: false
+                    context: traditional/.
+                    platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
+
 
     ci-headless:
         runs-on: ubuntu-latest
