@@ -30,7 +30,6 @@ jobs:
                     context: "{{defaultContext}}:traditional"
                     platforms: ${{ matrix.platform }}
 
-
     ci-headless:
         strategy:
             matrix:
