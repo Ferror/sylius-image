@@ -74,3 +74,34 @@ jobs:
                         --tag ${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} \
                         --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 \
                         headless/.
+
+    cd-experimental:
+        runs-on: ubuntu-latest
+        name: CD - build and deploy experimental image
+        env:
+            IMAGE_VERSION: 1.11-experimental
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: login to Docker Hub
+                uses: docker/login-action@v1
+                with:
+                    username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                    password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build and push the image
+                run: |
+                    docker buildx build \
+                        --push \
+                        --no-cache \
+                        --tag ${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} \
+                        --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 \
+                        experimental/.

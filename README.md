@@ -2,10 +2,11 @@
 
 ## Docker sizes
 
-| Image         | Size                                                                            |
-|---------------|---------------------------------------------------------------------------------|
-| 1.11          | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11)          |
-| 1.11-headless | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11-headless) |
+| Image             | Size                                                                                |
+|-------------------|-------------------------------------------------------------------------------------|
+| 1.11              | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11)              |
+| 1.11-headless     | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11-headless)     |
+| 1.11-experimental | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11-experimental) |
 
 ## Example usage
 ### Production environment
@@ -18,8 +19,7 @@ COPY . /app
 
 RUN composer install --no-scripts
 RUN php bin/console cache:warmup --no-debug --env=prod
-RUN yarn install --pure-lockfile
-RUN node_modules/gulp/bin/gulp.js
+RUN yarn install --pure-lockfile && yarn build
 ```
 
 In case of memory exhaustion you can increase PHP `memory_limit` config or add `--no-optional-warmers` flag

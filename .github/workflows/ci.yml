@@ -49,3 +49,24 @@ jobs:
                         --no-cache \
                         --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 \
                         headless/.
+
+    ci-experimental:
+        runs-on: ubuntu-latest
+        name: CI - build image
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build the image
+                run: |
+                    docker buildx build \
+                        --no-cache \
+                        --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 \
+                        experimental/.
