@@ -9,16 +9,25 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /
 
-RUN composer create-project sylius/sylius-standard app "dev-master" --no-scripts --no-progress --no-interaction --no-plugins --no-install
+RUN composer create-project sylius/sylius-standard app "dev-master" \
+    --no-scripts \
+    --no-progress \
+    --no-interaction \
+    --no-plugins \
+    --no-install
 
 WORKDIR /app/
 
 RUN composer install --no-scripts --no-interaction --no-dev --no-progress
 RUN php bin/console cache:warmup --no-debug --env=prod # --no-optional-warmers
 
-RUN php bin/console doctrine:database:create --if-not-exists
-RUN php bin/console sylius:install --no-interaction
-RUN php bin/console sylius:fixtures:load default --no-interaction
+RUN php bin/console sylius:install:check-requirements --no-interaction
+RUN php bin/console sylius:install:jwt-setup --no-interaction
+RUN php bin/console sylius:install:assets --no-interaction
+
+#RUN php bin/console sylius:install:database --no-interaction
+#RUN php bin/console sylius:install:setup --no-interaction
+#RUN php bin/console sylius:fixtures:load default --no-interaction
 
 RUN yarn install --ignore-scripts && yarn add node-sass && yarn build
 
