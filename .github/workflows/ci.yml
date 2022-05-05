@@ -150,7 +150,9 @@ jobs:
                 with:
                     push: false
                     context: "{{defaultContext}}:experimental"
+                    tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
+                    load: true
             -
                 name: Shutdown Default MySQL
                 run: sudo service mysql stop
