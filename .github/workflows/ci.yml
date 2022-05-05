@@ -8,14 +8,14 @@ on:
             - '*.md'
 
 jobs:
-    ci-traditional:
+    ci:
         strategy:
             matrix:
                 platform: [linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8]
                 image_type: [headless,traditional,experimental]
 
         runs-on: ubuntu-latest
-        name: CI - Build Traditional Image
+        name: CI - Build Image
         steps:
             -
                 name: Set Up QEMU
@@ -57,59 +57,15 @@ jobs:
                 run: |
                     docker image build \
                         --network sylius_network \
-                        --tag sylius-traditional-prod \
+                        --tag sylius-image-prod \
                         .github/workflows/
 
                     docker container run \
                         --network sylius_network \
                         -p 80:80/tcp \
-                        -d sylius-traditional-prod
+                        -d sylius-image-prod
             -
                 name: Health Check Store
                 run: |
                     sleep 5
                     curl -L --fail http://localhost:80 || exit 1
-
-    ci-headless:
-        strategy:
-            matrix:
-                platform: [linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8]
-
-        runs-on: ubuntu-latest
-        name: CI - Build Headless Image
-        steps:
-            -
-                name: Set Up QEMU
-                uses: docker/setup-qemu-action@v1
-            -
-                name: Set Up Docker Buildx
-                uses: docker/setup-buildx-action@v1
-            -
-                name: Build Image
-                uses: docker/build-push-action@v2
-                with:
-                    push: false
-                    context: "{{defaultContext}}:headless"
-                    platforms: ${{ matrix.platform }}
-
-    ci-experimental:
-        strategy:
-            matrix:
-                platform: [linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8]
-
-        runs-on: ubuntu-latest
-        name: CI - Build Experimental Image
-        steps:
-            -
-                name: Set Up QEMU
-                uses: docker/setup-qemu-action@v1
-            -
-                name: Set Up Docker Buildx
-                uses: docker/setup-buildx-action@v1
-            -
-                name: Build Image
-                uses: docker/build-push-action@v2
-                with:
-                    push: false
-                    context: "{{defaultContext}}:experimental"
-                    platforms: ${{ matrix.platform }}
