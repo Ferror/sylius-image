@@ -55,11 +55,13 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
+                        --platform ${{ matrix.platform }} \
                         --network sylius_network \
                         --tag sylius-image-prod \
                         .github/workflows/traditional/
 
                     docker container run \
+                        --platform ${{ matrix.platform }} \
                         --network sylius_network \
                         -p 80:80/tcp \
                         -d sylius-image-prod
@@ -116,11 +118,13 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
+                        --platform ${{ matrix.platform }} \
                         --network sylius_network \
                         --tag sylius-image-prod \
                         .github/workflows/headless/
 
                     docker container run \
+                        --platform ${{ matrix.platform }} \
                         --network sylius_network \
                         -p 80:80/tcp \
                         -d sylius-image-prod
@@ -177,11 +181,13 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
+                        --platform ${{ matrix.platform }} \
                         --network sylius_network \
                         --tag sylius-image-prod \
                         .github/workflows/experimental/
 
                     docker container run \
+                        --platform ${{ matrix.platform }} \
                         --network sylius_network \
                         -p 80:80/tcp \
                         -d sylius-image-prod
