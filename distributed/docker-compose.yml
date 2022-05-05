@@ -1,17 +1,17 @@
 services:
     php:
         build:
-            context: distributed
+            context: .
         environment:
             APP_ENV: "dev"
-            DATABASE_URL: "pgsql://root:postgres@postgres/sylius_%kernel.environment%" # When using postgres
+            DATABASE_URL: "pgsql://root:postgres@postgres/sylius_%kernel.environment%"
             PHP_DATE_TIMEZONE: "Europe/Warsaw"
         volumes:
             - ./app:/app:delegated
         ports:
             - 9000:9000
         depends_on:
-            - mysql
+            - postgres
         networks:
             - sylius
 
@@ -24,7 +24,7 @@ services:
         ports:
             - 80:80
         depends_on:
-            - mysql
+            - postgres
             - php
         networks:
             - sylius
@@ -32,8 +32,8 @@ services:
     postgres:
         image: postgres:13-alpine
         environment:
-            - POSTGRES_USER=root
-            - POSTGRES_PASSWORD=postgres
+            POSTGRES_USER: "root"
+            POSTGRES_PASSWORD: "postgres"
         ports:
             - 5432:5432
         networks:
