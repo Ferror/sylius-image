@@ -45,6 +45,9 @@ jobs:
 #                        --net sylius_network \
 #                        -d mysql:5.7
             -
+                name: Checkout Code
+                uses: actions/checkout@v2
+            -
                 name: Setup Sylius Store
                 run: |
                     docker image build \
