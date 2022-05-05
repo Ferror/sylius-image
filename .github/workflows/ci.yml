@@ -30,7 +30,7 @@ jobs:
                     context: "{{defaultContext}}:traditional"
                     tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
-                    cache-to: type=inline
+                    cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
 #            -
 #                name: Shutdown default MySQL
 #                run: sudo service mysql stop
@@ -51,6 +51,7 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
+                        --cache-from=type=local,src=/tmp/.buildx-cache \
                         --tag sylius-traditional-prod \
                         .github/workflows/
 
