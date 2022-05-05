@@ -28,8 +28,9 @@ jobs:
                 with:
                     push: false
                     context: "{{defaultContext}}:traditional"
+                    tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
-                    cache-to: type=registry,ref=ferror/sylius-image:buildcache,mode=max
+                    cache-to: type=inline
 #            -
 #                name: Shutdown default MySQL
 #                run: sudo service mysql stop

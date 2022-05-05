@@ -1,4 +1,4 @@
-FROM ferror/sylius-image:buildcache
+FROM sylius-image:cache
 
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
