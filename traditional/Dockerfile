@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     curl \
     supervisor \
-    unzip
+    unzip \
+    python2
 
 # Append NODE, NGINX and PHP repositories
 RUN add-apt-repository ppa:ondrej/php \
