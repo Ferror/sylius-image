@@ -19,9 +19,10 @@ RUN php bin/console sylius:install:check-requirements --no-interaction
 RUN php bin/console sylius:install:jwt-setup --no-interaction
 RUN php bin/console sylius:install:assets --no-interaction
 
-#RUN php bin/console sylius:install:database --no-interaction
-#RUN php bin/console sylius:install:setup --no-interaction
-#RUN php bin/console sylius:fixtures:load default --no-interaction
+# You shall not load fixtures and configure database here
+RUN php bin/console sylius:install:database --no-interaction
+RUN php bin/console sylius:install:setup --no-interaction
+RUN php bin/console sylius:fixtures:load default --no-interaction
 
 RUN mkdir -p public/media/image/
 RUN chmod -R 777 var/
