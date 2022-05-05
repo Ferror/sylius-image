@@ -31,19 +31,19 @@ jobs:
                     tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
                     load: true
-#            -
-#                name: Shutdown default MySQL
-#                run: sudo service mysql stop
-#            -
-#                name: Setup MySQL
-#                run: |
-#                    docker container run \
-#                        --platform linux/amd64 \
-#                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
-#                        -p 3306:3306/tcp \
-#                        --name mysql \
-#                        --net sylius_network \
-#                        -d mysql:5.7
+            -
+                name: Shutdown Default MySQL
+                run: sudo service mysql stop
+            -
+                name: Setup MySQL
+                run: |
+                    docker container run \
+                        --platform linux/amd64 \
+                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+                        -p 3306:3306/tcp \
+                        --name mysql \
+                        --net sylius_network \
+                        -d mysql:5.7
             -
                 name: Checkout Code
                 uses: actions/checkout@v2
@@ -51,7 +51,6 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
-                        --cache-from=type=local,src=/tmp/.buildx-cache \
                         --tag sylius-traditional-prod \
                         .github/workflows/
 
