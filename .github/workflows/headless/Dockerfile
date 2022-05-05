@@ -8,7 +8,12 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /
 
-RUN composer create-project sylius/sylius-standard app "dev-master" --no-scripts --no-progress --no-interaction --no-plugins --no-install
+RUN composer create-project sylius/sylius-standard app "dev-master" \
+    --no-scripts \
+    --no-progress \
+    --no-interaction \
+    --no-plugins \
+    --no-install
 
 WORKDIR /app/
 
