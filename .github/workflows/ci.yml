@@ -37,6 +37,10 @@ jobs:
             -
                 name: Setup MySQL
                 run: |
+                    docker network create \
+                        --driver bridge \
+                        sylius_network
+                    
                     docker container run \
                         --platform linux/amd64 \
                         -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
