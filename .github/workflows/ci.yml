@@ -28,7 +28,7 @@ jobs:
                 uses: docker/build-push-action@v2
                 with:
                     push: false
-                    context: ${{ format("{{defaultContext}}:{0}", ${{ matrix.image_type }}) }}
+                    context: ${{ format("{{{ defaultContext }}}:{0}", ${{ matrix.image_type }}) }}
                     tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
                     load: true
