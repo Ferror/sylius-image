@@ -48,7 +48,6 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
-                        --network sylius_network \
                         --tag sylius-traditional-prod \
                         .github/workflows/
 
