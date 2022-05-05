@@ -28,7 +28,48 @@ jobs:
                 with:
                     push: false
                     context: "{{defaultContext}}:traditional"
+                    tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
+                    load: true
+            -
+                name: Shutdown Default MySQL
+                run: sudo service mysql stop
+            -
+                name: Setup MySQL
+                run: |
+                    docker network create \
+                        --driver bridge \
+                        sylius_network
+                    
+                    docker container run \
+                        --platform linux/amd64 \
+                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+                        -p 3306:3306/tcp \
+                        --name mysql \
+                        --network sylius_network \
+                        -d mysql:5.7
+            -
+                name: Checkout Code
+                uses: actions/checkout@v2
+            -
+                name: Setup Sylius Store
+                run: |
+                    docker image build \
+                        --platform ${{ matrix.platform }} \
+                        --network sylius_network \
+                        --tag sylius-image-prod \
+                        .github/workflows/traditional/
+
+                    docker container run \
+                        --platform ${{ matrix.platform }} \
+                        --network sylius_network \
+                        -p 80:80/tcp \
+                        -d sylius-image-prod
+            -
+                name: Health Check Store
+                run: |
+                    sleep 5
+                    curl -L --fail http://localhost:80 || exit 1
 
     ci-headless:
         strategy:
@@ -50,7 +91,48 @@ jobs:
                 with:
                     push: false
                     context: "{{defaultContext}}:headless"
+                    tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
+                    load: true
+            -
+                name: Shutdown Default MySQL
+                run: sudo service mysql stop
+            -
+                name: Setup MySQL
+                run: |
+                    docker network create \
+                        --driver bridge \
+                        sylius_network
+                    
+                    docker container run \
+                        --platform linux/amd64 \
+                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+                        -p 3306:3306/tcp \
+                        --name mysql \
+                        --network sylius_network \
+                        -d mysql:5.7
+            -
+                name: Checkout Code
+                uses: actions/checkout@v2
+            -
+                name: Setup Sylius Store
+                run: |
+                    docker image build \
+                        --platform ${{ matrix.platform }} \
+                        --network sylius_network \
+                        --tag sylius-image-prod \
+                        .github/workflows/headless/
+
+                    docker container run \
+                        --platform ${{ matrix.platform }} \
+                        --network sylius_network \
+                        -p 80:80/tcp \
+                        -d sylius-image-prod
+            -
+                name: Health Check Store
+                run: |
+                    sleep 5
+                    curl -L --fail http://localhost:80 || exit 1
 
     ci-experimental:
         strategy:
@@ -72,4 +154,45 @@ jobs:
                 with:
                     push: false
                     context: "{{defaultContext}}:experimental"
+                    tags: sylius-image:cache
                     platforms: ${{ matrix.platform }}
+                    load: true
+            -
+                name: Shutdown Default MySQL
+                run: sudo service mysql stop
+            -
+                name: Setup MySQL
+                run: |
+                    docker network create \
+                        --driver bridge \
+                        sylius_network
+
+                    docker container run \
+                        --platform linux/amd64 \
+                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+                        -p 3306:3306/tcp \
+                        --name mysql \
+                        --network sylius_network \
+                        -d mysql:5.7
+            -
+                name: Checkout Code
+                uses: actions/checkout@v2
+            -
+                name: Setup Sylius Store
+                run: |
+                    docker image build \
+                        --platform ${{ matrix.platform }} \
+                        --network sylius_network \
+                        --tag sylius-image-prod \
+                        .github/workflows/experimental/
+
+                    docker container run \
+                        --platform ${{ matrix.platform }} \
+                        --network sylius_network \
+                        -p 80:80/tcp \
+                        -d sylius-image-prod
+            -
+                name: Health Check Store
+                run: |
+                    sleep 5
+                    curl -L --fail http://localhost:80 || exit 1
