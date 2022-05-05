@@ -99,7 +99,7 @@ jobs:
             -
                 name: Setup Sylius Store
                 run: |
-                    docker compose up -d
+                    docker compose -f .github/workflows/docker-compose.yml up -d
             -
                 name: Health Check Store
                 run: |
