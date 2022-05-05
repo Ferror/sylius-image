@@ -46,7 +46,7 @@ jobs:
                         -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
                         -p 3306:3306/tcp \
                         --name mysql \
-                        --net sylius_network \
+                        --network sylius_network \
                         -d mysql:5.7
             -
                 name: Checkout Code
@@ -55,11 +55,12 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
+                        --network sylius_network \
                         --tag sylius-traditional-prod \
                         .github/workflows/
 
                     docker container run \
-                        --net sylius_network \
+                        --network sylius_network \
                         -p 80:80/tcp \
                         -d sylius-traditional-prod
             -
