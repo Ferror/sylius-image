@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y \
     curl \
     supervisor \
     unzip \
-    python2
+    python2 \
+    make \
+    g++
 
 # Append NODE, NGINX and PHP repositories
 RUN add-apt-repository ppa:ondrej/php \
