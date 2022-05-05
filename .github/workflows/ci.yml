@@ -57,7 +57,7 @@ jobs:
                     docker image build \
                         --network sylius_network \
                         --tag sylius-image-prod \
-                        .github/workflows/
+                        .github/workflows/traditional/
 
                     docker container run \
                         --network sylius_network \
@@ -118,7 +118,7 @@ jobs:
                     docker image build \
                         --network sylius_network \
                         --tag sylius-image-prod \
-                        .github/workflows/
+                        .github/workflows/headless/
 
                     docker container run \
                         --network sylius_network \
@@ -177,7 +177,7 @@ jobs:
                     docker image build \
                         --network sylius_network \
                         --tag sylius-image-prod \
-                        .github/workflows/
+                        .github/workflows/experimental/
 
                     docker container run \
                         --network sylius_network \
