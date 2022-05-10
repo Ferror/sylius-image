@@ -17,9 +17,6 @@ FROM ferror/sylius-image:1.11
 
 COPY . /app
 
-
-RUN --mount=type=secret,id=sylius-token \ 
-    composer config --global --auth http-basic.sylius.repo.packagist.com token $(cat /run/secrets/sylius-token)
 RUN composer install --no-scripts
 RUN php bin/console cache:warmup --no-debug --env=prod
 RUN yarn install --pure-lockfile && yarn build
