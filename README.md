@@ -17,6 +17,9 @@ FROM ferror/sylius-image:1.11
 
 COPY . /app
 
+
+RUN --mount=type=secret,id=sylius-token \ 
+    composer config --global --auth http-basic.sylius.repo.packagist.com token $(cat /run/secrets/sylius-token)
 RUN composer install --no-scripts
 RUN php bin/console cache:warmup --no-debug --env=prod
 RUN yarn install --pure-lockfile && yarn build
@@ -58,15 +61,14 @@ services:
     traefik:
         image: traefik:2.6
         ports:
-            - "80:80"     # HTTP
-            - "443:443"   # HTTPS
-            - "8080:8080" # Traefik UI dashboard
+            - 80:80     # HTTP
+            - 443:443   # HTTPS
+            - 8080:8080 # Traefik UI dashboard
         volumes:
             - ./.docker/traefik.yaml:/etc/traefik/traefik.yaml
             - /var/run/docker.sock:/var/run/docker.sock:ro
         networks:
-            sylius:
-                ipv4_address: 192.168.10.2
+            - sylius
 
     app:
         image: ferror/sylius-image:1.11
@@ -103,7 +105,7 @@ services:
 #        volumes:
 #            - ./.docker/dev/postgres:/docker-entrypoint-initdb.d:delegated
         ports:
-            - "5432:5432"
+            - 5432:5432
         depends_on:
             - traefik
         networks:
@@ -112,8 +114,4 @@ services:
 networks:
     sylius:
         driver: bridge
-        ipam:
-            driver: default
-            config:
-                - subnet: 192.168.10.0/24
 ```
