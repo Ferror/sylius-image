@@ -7,6 +7,7 @@
 | 1.11              | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11)              |
 | 1.11-headless     | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11-headless)     |
 | 1.11-experimental | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11-experimental) |
+| 1.11-roadrunner   | ![Docker Hub](https://badgen.net/docker/size/ferror/sylius-image/1.11-roadrunner)   |
 
 ## Example usage
 ### Production environment

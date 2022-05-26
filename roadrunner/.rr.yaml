@@ -1,0 +1,14 @@
+server:
+    command: "php public/index.php"
+    env:
+        APP_RUNTIME: Runtime\RoadRunnerSymfonyNyholm\Runtime
+
+http:
+    address: 0.0.0.0:80
+    pool:
+        num_workers: 2
+    middleware: ["static"]
+    static:
+        dir: "public"
+        calculate_etag: false
+        weak: false
