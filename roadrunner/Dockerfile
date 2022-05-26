@@ -1,4 +1,4 @@
-FROM php:8.0-alpine
+FROM php:8.0-fpm-alpine3.15
 
 COPY --from=composer:2.3 /usr/bin/composer /usr/bin/composer
 COPY --from=spiralscout/roadrunner:2.9.4 /usr/bin/rr /usr/bin/rr
@@ -37,10 +37,11 @@ RUN install-php-extensions \
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /var/cache/apk/*
 
 COPY .docker/php.ini    /usr/local/etc/php/php.ini
+COPY .rr.yaml           /app/.rr.yaml
 
 WORKDIR /app
 
 EXPOSE 80
 
 ENTRYPOINT ["/usr/bin/rr"]
-CMD ["serve"]
+CMD ["serve", "-d"]

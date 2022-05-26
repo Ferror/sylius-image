@@ -7,7 +7,7 @@ http:
     address: 0.0.0.0:80
     pool:
         num_workers: 2
-    middleware: [ "static" ]
+    middleware: ["static"]
     static:
         dir: "public"
         calculate_etag: false
