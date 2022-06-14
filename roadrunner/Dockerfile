@@ -10,31 +10,30 @@ COPY --from=node:14-alpine /usr/local/lib       /usr/local/lib
 COPY --from=node:14-alpine /usr/local/include   /usr/local/include
 COPY --from=node:14-alpine /usr/local/bin       /usr/local/bin
 
-RUN apk update --no-cache && apk add --no-cache unzip make yarn python2 g++
-
-RUN install-php-extensions \
-    calendar \
-    ctype \
-    curl \
-    dom \
-    exif \
-    gd \
-    hash \
-    iconv \
-    intl \
-    mbstring \
-    opcache \
-    pdo \
-    pdo_mysql \
-    pdo_pgsql \
-    pdo_sqlite \
-    pgsql \
-    sockets \
-    xml \
-    xsl \
-    zip
-
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /var/cache/apk/*
+RUN apk update --no-cache \
+    && apk add --no-cache unzip make yarn python2 g++\
+    && install-php-extensions \
+        calendar \
+        ctype \
+        curl \
+        dom \
+        exif \
+        gd \
+        hash \
+        iconv \
+        intl \
+        mbstring \
+        opcache \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pdo_sqlite \
+        pgsql \
+        sockets \
+        xml \
+        xsl \
+        zip \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /var/cache/apk/*
 
 COPY .docker/php.ini    /usr/local/etc/php/php.ini
 COPY .rr.yaml           /app/.rr.yaml
