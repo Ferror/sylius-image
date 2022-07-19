@@ -133,6 +133,13 @@ jobs:
                 run: |
                     sleep 5
                     curl -L --fail http://localhost:80 || exit 1
+            -
+                name: Run Dockle Analyze
+                uses: erzz/dockle-action@v1
+                with:
+                    image: sylius-image-prod
+                    exit-code: 1
+                    failure-threshold: fatal
 
     ci-experimental:
         strategy:
