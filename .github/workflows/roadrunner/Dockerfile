@@ -1,4 +1,4 @@
-FROM roadrunner
+FROM sylius-image:cache
 
 ARG SYLIUS_VERSION=1.12
 
