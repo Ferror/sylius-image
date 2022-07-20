@@ -20,9 +20,9 @@ RUN composer create-project sylius/sylius-standard app "${SYLIUS_VERSION}.x@dev"
 
 WORKDIR /app/
 
-COPY .rr.yaml .rr.yaml
-
-RUN composer install --no-scripts --no-interaction --no-dev --no-progress
+RUN composer install --no-interaction --no-dev --no-progress
+RUN composer config allow-plugins.symfony/runtime true
+RUN composer require runtime/roadrunner-symfony-nyholm
 RUN php bin/console cache:warmup --no-debug --env=prod # --no-optional-warmers
 
 RUN php bin/console sylius:install:check-requirements --no-interaction
@@ -30,11 +30,15 @@ RUN php bin/console sylius:install:jwt-setup --no-interaction
 RUN php bin/console sylius:install:assets --no-interaction
 
 # You shall not load fixtures and configure database here
-RUN php bin/console sylius:install:database --no-interaction
-RUN php bin/console sylius:install:setup --no-interaction
-RUN php bin/console sylius:fixtures:load default --no-interaction
+#RUN php bin/console sylius:install:database --no-interaction
+#RUN php bin/console sylius:install:setup --no-interaction
+#RUN php bin/console sylius:fixtures:load default --no-interaction
 
 RUN yarn install --ignore-scripts && yarn build
+
+COPY .rr.yaml .rr.yaml
+COPY Makefile Makefile
+COPY index.php public/index.php
 
 RUN mkdir -p public/media/image/
 RUN chmod -R 777 var/

@@ -1,0 +1,15 @@
+services:
+    app:
+        build:
+            context: .
+        ports:
+            - 80:80
+        depends_on:
+            - mysql
+
+    mysql:
+        image: mysql:8.0
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        ports:
+            - 3306:3306

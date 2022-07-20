@@ -236,7 +236,7 @@ jobs:
 
                     docker container run \
                         --platform linux/amd64 \
-                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+                        -e MYSQL_ALLOW_EMPTY_PASSWORD=1 \
                         -p 3306:3306/tcp \
                         --name mysql \
                         --network sylius_network \
