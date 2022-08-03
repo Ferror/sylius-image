@@ -1,9 +1,14 @@
-FROM php:8.0-fpm-alpine
+ARG ALPINE_VERSION=3.15
+ARG COMPOSER_VERSION=2
 
-COPY --from=composer:2.3 /usr/bin/composer /usr/bin/composer
+FROM composer:${COMPOSER_VERSION} AS composer
+
+FROM php:8.0-fpm-alpine${ALPINE_VERSION}
+
+COPY --from=composer                        /usr/bin/composer               /usr/bin/composer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions
 
-RUN apk update && apk add \
+RUN apk update --no-cache && apk add --no-cache \
     supervisor \
     unzip \
     nginx
@@ -36,8 +41,7 @@ RUN install-php-extensions \
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /var/cache/apk/*
 
-RUN ln -s /usr/local/sbin/php-fpm  /usr/sbin/php-fpm
-RUN mkdir -p /var/log/php-fpm/
+RUN ln -s /usr/local/sbin/php-fpm /usr/sbin/php-fpm && mkdir -p /var/log/php-fpm/
 
 COPY .docker/supervisord.conf   /etc/supervisor/conf.d/supervisor.conf
 COPY .docker/nginx.conf         /etc/nginx/nginx.conf
