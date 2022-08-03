@@ -248,8 +248,6 @@ jobs:
                 name: Setup Sylius Store
                 run: |
                     docker image build \
-                        --platform ${{ matrix.platform }} \
-                        --network sylius_network \
                         --tag sylius-image-prod \
                         .github/workflows/roadrunner/
 
