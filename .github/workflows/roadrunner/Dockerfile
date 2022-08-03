@@ -42,3 +42,5 @@ COPY index.php public/index.php
 
 RUN mkdir -p public/media/image/
 RUN chmod -R 777 var/
+
+CMD ["make", "run"]
