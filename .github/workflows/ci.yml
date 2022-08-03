@@ -259,5 +259,5 @@ jobs:
             -
                 name: Health Check Store
                 run: |
-                    sleep 5
+                    sleep 30
                     curl -L --fail http://localhost:80 || exit 1
